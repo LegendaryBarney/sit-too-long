@@ -1,0 +1,52 @@
+# Python 環境
+venv/
+env/
+ENV/
+.venv
+
+# Python 編譯檔案
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDE 編輯器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 依賴套件
+*.egg-info/
+dist/
+build/
+
+# 本地配置
+.env
+.env.local
+config.local.py
+
+# 日誌
+*.log
+logs/
+
+# 暫存檔案
+*.tmp
+*.bak
+*.backup
+
+# Windows
+Thumbs.db
+desktop.ini
+*.lnk
+
+# Python 測試
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 專案特定
+reminder_log.txt
+deepseek_powershell_*.ps1
