@@ -42,11 +42,16 @@
    pip install -r requirements.txt
    ```
 
-### 方法 2：自動安裝（批次檔）
+### 方法 2：自動安裝（PowerShell）
 
 Windows 使用者可直接執行：
 ```bash
-install.bat
+powershell -ExecutionPolicy Bypass -File install.ps1
+```
+
+或使用安靜模式：
+```bash
+powershell -ExecutionPolicy Bypass -File install.ps1 -Quiet
 ```
 
 ## 使用方法
@@ -87,7 +92,8 @@ sit-too-long.bat
 sit-too-long/
 ├── sit-too-long.py          # 主程式
 ├── requirements.txt          # Python 依賴列表
-├── install.bat              # Windows 安裝批次檔
+├── install.ps1              # Windows 自動安裝指令稿
+├── run.bat                  # 執行程式
 ├── run_hidden.vbs           # 隱藏視窗執行腳本
 ├── sit-too-long.bat         # 執行批次檔
 ├── README.md                # 專案文檔（本檔案）
