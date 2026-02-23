@@ -20,16 +20,7 @@ class SettingsDialog:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("久坐提醒設定")
-        self.root.geometry("300x200")
         self.root.resizable(False, False)
-        
-        # 設定視窗置中
-        self.root.update_idletasks()
-        width = self.root.winfo_width()
-        height = self.root.winfo_height()
-        x = (self.root.winfo_screenwidth() // 2) - (width // 2)
-        y = (self.root.winfo_screenheight() // 2) - (height // 2)
-        self.root.geometry(f'{width}x{height}+{x}+{y}')
         
         # 久坐時間設定
         ttk.Label(self.root, text="久坐時間 (分鐘):").pack(pady=10)
@@ -43,6 +34,12 @@ class SettingsDialog:
         
         # 確認按鈕
         ttk.Button(self.root, text="開始監測", command=self.on_confirm).pack(pady=20)
+        
+        # 設定視窗大小並置中
+        win_w, win_h = 800, 500
+        x = (self.root.winfo_screenwidth() // 2) - (win_w // 2)
+        y = (self.root.winfo_screenheight() // 2) - (win_h // 2)
+        self.root.geometry(f'{win_w}x{win_h}+{x}+{y}')
         
         # 設定關閉視窗的處理
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
@@ -215,30 +212,55 @@ class ReminderApp:
         try:
             root = tk.Tk()
             root.title("休息提醒")
-            root.geometry("300x150")
             root.attributes('-topmost', True)
-            
-            # 設定視窗置中
-            root.update_idletasks()
-            width = root.winfo_width()
-            height = root.winfo_height()
-            x = (root.winfo_screenwidth() // 2) - (width // 2)
-            y = (root.winfo_screenheight() // 2) - (height // 2)
-            root.geometry(f'{width}x{height}+{x}+{y}')
             
             # 訊息標籤
             ttk.Label(
                 root, 
                 text=f"您已經坐了 {self.sit_minutes} 分鐘了！\n\n請站起來活動一下！",
-                font=("Arial", 12)
+                font=("Arial", 14)
             ).pack(pady=30)
+            
+            # 應休息時間顯示
+            ttk.Label(
+                root,
+                text=f"應休息時間：{self.break_minutes} 分鐘",
+                font=("Arial", 12)
+            ).pack(pady=5)
+            
+            # 累積已休息時間顯示（即時更新）
+            rest_var = tk.StringVar(value="累積已休息：00:00")
+            rest_label = ttk.Label(
+                root,
+                textvariable=rest_var,
+                font=("Arial", 12)
+            )
+            rest_label.pack(pady=5)
+            
+            # 定時更新累積休息時間
+            alert_start_time = time.time()
+            
+            def update_rest_time():
+                elapsed = int(time.time() - alert_start_time)
+                minutes = elapsed // 60
+                seconds = elapsed % 60
+                rest_var.set(f"累積已休息：{minutes:02d}:{seconds:02d}")
+                root.after(1000, update_rest_time)
+            
+            update_rest_time()
             
             # 確認按鈕
             ttk.Button(
                 root,
                 text="我知道了",
                 command=root.destroy
-            ).pack()
+            ).pack(pady=20)
+            
+            # 設定視窗大小並置中
+            win_w, win_h = 700, 400
+            x = (root.winfo_screenwidth() // 2) - (win_w // 2)
+            y = (root.winfo_screenheight() // 2) - (win_h // 2)
+            root.geometry(f'{win_w}x{win_h}+{x}+{y}')
             
             root.protocol("WM_DELETE_WINDOW", root.destroy)
             root.mainloop()
